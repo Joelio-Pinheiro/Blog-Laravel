@@ -1,6 +1,6 @@
 <article class="flex flex-col shadow my-4">
     <!-- Article Image -->
-    <a href="#" class="hover:opacity-75">
+    <a href='{{route('view', $post)}}' class="hover:opacity-75">
         <img src="{{$post->getThumbnail()}}">
     </a>
     <div class="bg-white flex flex-col justify-start p-6">
@@ -16,9 +16,9 @@
             By <a href="#" class="font-semibold hover:text-gray-800">
                 {{$post->user->name}}</a>, Published on {{$post->getFormattedDate()}}
         </p>
-        <a href="#" class="pb-6">
+        <a href='{{route('view', $post)}}' class="pb-6">
             {{$post->shortBody()}}
         </a>
-        <a href="#" class="uppercase text-gray-800 hover:text-black">Continue Reading <i class="fas fa-arrow-right"></i></a>
+        <a href={{$post->slug}} class="uppercase text-gray-800 hover:text-black">Continue Reading <i class="fas fa-arrow-right"></i></a>
     </div>
 </article>
