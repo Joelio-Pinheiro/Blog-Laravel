@@ -1,3 +1,6 @@
+@php
+    use Illuminate\Support\Str;
+@endphp
 <x-app-layout>
     <!-- Post Section -->
     <section class="w-full md:w-2/3 flex flex-col items-center px-3">
@@ -33,7 +36,7 @@
                             <i class="fas fa-arrow-left pr-1"></i>
                             Previous
                         </p>
-                        <p class="pt-2">{{\Illuuminate\Support\Str::words($prev->title, 5)}}</p>
+                        <p class="pt-2">{{Illuminate\Support\Str::words($prev->title, 5)}}</p>
                     </a>
                 @endif
             </div>
@@ -43,10 +46,12 @@
                         Next
                         <i class="fas fa-arrow-right pl-1"></i>
                     </p>
-                    <p class="pt-2">{{\Illuuminate\Support\Str::words($next->title, 5)}}</p>
+                    <p class="pt-2">{{Illuminate\Support\Str::words($next->title, 5)}}</p>
                 </a>
             </div>
         </div>
 
     </section>
+
+    <x-sidebar/>
 </x-app-layout>
