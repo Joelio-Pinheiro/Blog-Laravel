@@ -2,7 +2,7 @@
 /** @var $posts \Illuminate\Pagination\LengthAwarePaginator **/
 ?>
 
-<x-app-layout>
+<x-app-layout meta-description="Meu Blog pessoal da UFC">
     <!-- Posts Section -->
     <section class="w-full md:w-2/3 flex flex-col items-center px-3">
 

@@ -44,12 +44,14 @@ class PostResource extends Resource
                             ]),
                         Forms\Components\RichEditor::make('body')
                             ->required(),
+                        Forms\Components\TextInput::make('meta_title'),
+                        Forms\Components\TextInput::make('meta_description'),
                         Forms\Components\Toggle::make('active')
                             ->required(),
                         Forms\Components\DateTimePicker::make('published_at')
                             ->required(),
                     ])->columnSpan(8),
-                    Forms\Components\Card::make()
+                Forms\Components\Card::make()
                     ->schema([
                         Forms\Components\FileUpload::make('thumbnail'),
                         Forms\Components\Select::make('category_id')
