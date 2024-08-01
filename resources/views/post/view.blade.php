@@ -42,6 +42,7 @@
                 @endif
             </div>
             <div class="w-1/2">
+            @if ($next)
                 <a href="{{ route('view', $next) }}" class="block w-full bg-white shadow hover:shadow-md text-right p-6">
                     <p class="text-lg text-blue-800 font-bold flex items-center justify-end">
                         Next
@@ -49,6 +50,7 @@
                     </p>
                     <p class="pt-2">{{Illuminate\Support\Str::words($next->title, 5)}}</p>
                 </a>
+            @endif
             </div>
         </div>
 
