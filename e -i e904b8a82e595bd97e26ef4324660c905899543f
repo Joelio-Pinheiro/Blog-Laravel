@@ -1,0 +1,101 @@
+[33mcommit 526d9e7a3f56165dc010dcb2f0b89b562a9a9493[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: felipe <fellipe1908@alu.ufc.br>
+Date:   Mon Aug 12 16:17:48 2024 -0300
+
+    feat: UpvoteDownvote
+
+[33mcommit e904b8a82e595bd97e26ef4324660c905899543f[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Wed Aug 7 16:00:20 2024 -0300
+
+    feat: role permissions for users
+
+[33mcommit e7df58c6ef4489a01289f93f3ec6d8c3d5b3bfa6[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Mon Aug 5 15:26:10 2024 -0300
+
+    feat: implements login and logout user
+
+[33mcommit 3a95006a8989f7d250ed626e637cfa8ec8c2f4c3[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Thu Aug 1 15:27:46 2024 -0300
+
+    fix: css components
+
+[33mcommit 4b7c81e11cdf5e1e19c78411c32965c41a9c364e[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Thu Aug 1 15:01:51 2024 -0300
+
+    Add: meta-title categories
+
+[33mcommit fd36aab3a6d69200d6d1ea3c24d3599a367aaade[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Wed Jul 31 17:07:09 2024 -0300
+
+    feat: meta columns
+
+[33mcommit aca373ebeb4dbeaebf00bf4dcac913bcd5a6738c[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Wed Jul 31 15:35:56 2024 -0300
+
+    feat: config navbar
+
+[33mcommit 52e1b5ed94d5c76953ec359d843202d29f837a1e[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Mon Jul 29 16:17:42 2024 -0300
+
+    feat: page post
+
+[33mcommit a3af671978e81113be75d5c064f8e60c38d86fc4[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Mon Jul 29 15:04:45 2024 -0300
+
+    feat: add Text widget and layout editing
+
+[33mcommit 2b92eb10200053d86ca2a6d1b78da6101d12e720[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Fri Jul 26 16:25:03 2024 -0300
+
+    Feat: pagination
+
+[33mcommit 88820839deef2c0532c9ad71f253ded424b80593[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Fri Jul 26 15:04:11 2024 -0300
+
+    feat: render posts
+
+[33mcommit 40ac3e91edb92cc4d909215df59bd1659abaa2a2[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Fri Jul 26 13:28:24 2024 -0300
+
+    Fix: problem import layout
+
+[33mcommit 7dff47ca56ccc5989dd3de4b0eb8561b5c3e69cb[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Wed Jul 24 16:59:09 2024 -0300
+
+    feat: page layout
+
+[33mcommit 54a32ed361aa94cbd8c7e2f035a9272c4937f9df[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Wed Jul 24 13:14:39 2024 -0300
+
+    feat: config images and initial screen component
+
+[33mcommit 6599aa4c1a24c97d538ba6690ff85978409a2ca7[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Mon Jul 22 16:08:37 2024 -0300
+
+    feat: add layout form
+
+[33mcommit a77546665c64f6d157cfe2c32443cf907b0b169d[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Mon Jul 22 14:41:42 2024 -0300
+
+    Fix: slug generate
+
+[33mcommit b23dafd0c73b4d208ee599761fca809443bace07[m
+Author: Joelio-Pinheiro <joeliopinheiro10@gmail.com>
+Date:   Mon Jul 22 14:07:47 2024 -0300
+
+    Configuração inicial
