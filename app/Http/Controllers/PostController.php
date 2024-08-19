@@ -69,7 +69,7 @@ class PostController extends Controller
             ->first();
 
         $user = $request->user();
-        $token = 'token-view';
+        $token = ($post->id);
         $cookieValue = $request->cookie($token);
 
         if (!$cookieValue) {
@@ -80,7 +80,7 @@ class PostController extends Controller
                 'user_id' => $user?->id,
             ]);
 
-            $cookieValue = 'token-view';
+            $cookieValue = $post->id;
             Cookie::queue($token, $cookieValue, 5);
         }
 
