@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\PostView;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Cookie;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PostController extends Controller
@@ -44,8 +46,9 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(Post $post, Request $request)
     {
+
         if (!$post->active || $post->published_at > Carbon::now()) {
             throw new NotFoundHttpException();
         }
@@ -65,18 +68,35 @@ class PostController extends Controller
             ->limit(1)
             ->first();
 
+        $user = $request->user();
+        $token = 'token-view';
+        $cookieValue = $request->cookie($token);
+
+        if (!$cookieValue) {
+            PostView::create([
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+                'post_id' => $post->id,
+                'user_id' => $user?->id,
+            ]);
+
+            $cookieValue = 'token-view';
+            Cookie::queue($token, $cookieValue, 5);
+        }
+
         return view('post.view', compact('post', 'prev', 'next'));
     }
 
-    function byCategory(Category $category) {
+    function byCategory(Category $category)
+    {
         $posts = Post::query()
-        ->join('category_post', 'posts.id', '=', 'category_post.post_id')
-        ->where('category_post.category_id', '=', $category->id)
-        ->where('active', '=', true)
-        ->whereDate('published_at', '<=', Carbon::now())
-        ->orderBy('published_at', 'desc')
-        ->paginate(10);
-        
+            ->join('category_post', 'posts.id', '=', 'category_post.post_id')
+            ->where('category_post.category_id', '=', $category->id)
+            ->where('active', '=', true)
+            ->whereDate('published_at', '<=', Carbon::now())
+            ->orderBy('published_at', 'desc')
+            ->paginate(10);
+
         return view('post.index', compact('posts', 'category'));
     }
 }
