@@ -15,14 +15,21 @@ class PostOverview extends Widget
 
     protected function getViewData(): array
     {
+        if ($this->record === null || !$this->record->id) {
+            return [
+                'viewCount' => 0,
+                'upvotes' => 0,
+                'downvotes' => 0,
+            ];
+        }
         return [
             'viewCount' => PostView::where('post_id', '=', $this->record->id)->count(),
-            'upvotes' => UpvoteDownvote::where('post_id','=', $this->record->id)
-            ->where('is_upvote', '=', 1)
-            ->count(),
-            'downvotes' => UpvoteDownvote::where('post_id','=', $this->record->id)
-            ->where('is_upvote', '=', 0)
-            ->count(),
+            'upvotes' => UpvoteDownvote::where('post_id', '=', $this->record->id)
+                ->where('is_upvote', '=', 1)
+                ->count(),
+            'downvotes' => UpvoteDownvote::where('post_id', '=', $this->record->id)
+                ->where('is_upvote', '=', 0)
+                ->count(),
         ];
     }
 
