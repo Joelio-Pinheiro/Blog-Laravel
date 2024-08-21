@@ -16,7 +16,7 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function home(): View
+    public function index(): View
     {
         $posts = Post::query()
             ->where('active', '=', 1)
