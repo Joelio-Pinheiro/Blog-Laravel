@@ -21,6 +21,21 @@
                 <h2 class="text-lg sm:text-xl font-bold text-blue-500 uppercase pb-1 border-b-2 border-blue-500 mb-3">
                     Popular Posts
                 </h2>
+                <div>
+                    @foreach($popularPosts as $post)
+                        <div class="grid grid-cols-4 gap-2 pt-2">
+                            <div class="pt-2">
+                                <img src="{{$post->getThumbnail()}}" alt="{{$post->title}}">
+                            </div>
+                            <div class="col-span-3">
+                                <h3 class="font-semibold">{{$post->title}}</h3>
+                                <div class="text-sm">
+                                    {{$post->shortBody(20)}}
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
 
             {{-- Recommended posts --}}

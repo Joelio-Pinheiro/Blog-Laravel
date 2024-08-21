@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PostController extends Controller
@@ -26,6 +27,19 @@ class PostController extends Controller
         ->first();
 
         // Os 3 posts mais populares com base em upvotes
+        $popularPosts = Post::query()
+        ->leftJoin('upvote_downvotes', 'posts.id', '=', 'upvote_downvotes.post_id')
+        ->select('posts.*', DB::raw('COUNT(upvote_downvotes.id) as upvote_count'))
+        ->where(function($query){
+            $query->whereNull('upvote_downvotes.is_upvote')
+            ->orWhere('upvote_downvotes.is_upvote', '=', 1);
+        })
+        ->where('active', '=', 1)
+        ->whereDate('published_at', '<', Carbon::now())
+        ->orderByDesc('upvote_count')
+        ->groupBy('posts.id')
+        ->limit(3)
+        ->get();
 
         // Se usuario autorizado - Mostre posts recomendados com base nos upVotes do User
 
@@ -33,7 +47,7 @@ class PostController extends Controller
 
         // Mostre as categorias recentes com base nos ultimos posts
 
-        return view('home', compact('latestPost'));
+        return view('home', compact('latestPost', 'popularPosts'));
     }
 
     /**
