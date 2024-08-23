@@ -21,33 +21,63 @@ class PostController extends Controller
     {
         //Ultimas Postagens
         $latestPost = Post::where('active', '=', 1)
-        ->whereDate('published_at', '<', Carbon::now())
-        ->orderBy('published_at', 'desc')
-        ->limit(1)
-        ->first();
+            ->whereDate('published_at', '<', Carbon::now())
+            ->orderBy('published_at', 'desc')
+            ->limit(1)
+            ->first();
 
         // Os 3 posts mais populares com base em upvotes
         $popularPosts = Post::query()
-        ->leftJoin('upvote_downvotes', 'posts.id', '=', 'upvote_downvotes.post_id')
-        ->select('posts.*', DB::raw('COUNT(upvote_downvotes.id) as upvote_count'))
-        ->where(function($query){
-            $query->whereNull('upvote_downvotes.is_upvote')
-            ->orWhere('upvote_downvotes.is_upvote', '=', 1);
-        })
-        ->where('active', '=', 1)
-        ->whereDate('published_at', '<', Carbon::now())
-        ->orderByDesc('upvote_count')
-        ->groupBy('posts.id')
-        ->limit(3)
-        ->get();
+            ->leftJoin('upvote_downvotes', 'posts.id', '=', 'upvote_downvotes.post_id')
+            ->select('posts.*', DB::raw('COUNT(upvote_downvotes.id) as upvote_count'))
+            ->where(function ($query) {
+                $query->whereNull('upvote_downvotes.is_upvote')
+                    ->orWhere('upvote_downvotes.is_upvote', '=', 1);
+            })
+            ->where('active', '=', 1)
+            ->whereDate('published_at', '<', Carbon::now())
+            ->orderByDesc('upvote_count')
+            ->groupBy('posts.id')
+            ->limit(5)
+            ->get();
 
         // Se usuario autorizado - Mostre posts recomendados com base nos upVotes do User
+
+        $user = auth()->user();
+
+        if ($user) {
+            $leftJoin = "(SELECT cp.category_id, cp.post_id FROM upvote_downvotes
+            JOIN category_post cp ON upvote_downvotes.post_id = cp.post_id
+            WHERE upvote_downvotes.is_upvote = 1 AND upvote_downvotes.user_id = ?) as t";
+
+            $recommendedPosts = Post::query()
+            ->leftJoin('category_post as cp', 'post_id', '=', 'cp.post_id')
+            ->leftJoin(DB::raw($leftJoin), function($join){
+                $join->on('t.category_id', '=', 'cp.category_id')
+                ->on('t.post_id', '<>', 'cp.post_id');
+            })
+            ->select('posts.*')
+            ->setBindings([$user->id])
+            ->limit(3)
+            ->get();
+
+        } else {
+            $recommendedPosts = Post::query()
+                ->leftJoin('post_views', 'posts.id', '=', 'post_views.post_id')
+                ->select('posts.*', DB::raw('COUNT(post_views.id) as view_count'))
+                ->where('active', '=', 1)
+                ->whereDate('published_at', '<', Carbon::now())
+                ->orderByDesc('view_count')
+                ->groupBy('posts.id')
+                ->limit(3)
+                ->get();
+        }
 
         // Se não autorizado - Mostre posts recomendados com base nas views
 
         // Mostre as categorias recentes com base nos ultimos posts
 
-        return view('home', compact('latestPost', 'popularPosts'));
+        return view('home', compact('latestPost', 'popularPosts', 'recommendedPosts'));
     }
 
     /**
