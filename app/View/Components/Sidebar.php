@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use App\Models\Category;
+use App\Models\Post;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +30,8 @@ class Sidebar extends Component
         ->groupBy('categories.id')
         ->orderByDesc('total')
         ->get();
+        $post = Post::query()
+        ->where('post.id', '=', '');
 
         return view('components.sidebar', compact('categories'));
     }

@@ -41,27 +41,34 @@ class PostController extends Controller
             ->limit(5)
             ->get();
 
-        // Se usuario autorizado - Mostre posts recomendados com base nos upVotes do User
 
+        /** @var \App\Models\User $user */
         $user = auth()->user();
-
+        $verified = false;
         if ($user) {
+            if ($user->hasVerifiedEmail()) {
+                $verified = true;
+            }
+        }
+        if ($verified) {
+            // Se usuario autorizado - Mostre posts recomendados com base nos upVotes do User
             $leftJoin = "(SELECT cp.category_id, cp.post_id FROM upvote_downvotes
-            JOIN category_post cp ON upvote_downvotes.post_id = cp.post_id
-            WHERE upvote_downvotes.is_upvote = 1 AND upvote_downvotes.user_id = ?) as t";
+                        JOIN category_post cp ON upvote_downvotes.post_id = cp.post_id
+                        WHERE upvote_downvotes.is_upvote = 1 and upvote_downvotes.user_id = ?) as t";
 
             $recommendedPosts = Post::query()
-            ->leftJoin('category_post as cp', 'post_id', '=', 'cp.post_id')
-            ->leftJoin(DB::raw($leftJoin), function($join){
-                $join->on('t.category_id', '=', 'cp.category_id')
-                ->on('t.post_id', '<>', 'cp.post_id');
-            })
-            ->select('posts.*')
-            ->setBindings([$user->id])
-            ->limit(3)
-            ->get();
-
+                ->leftJoin('category_post as cp', 'posts.id', '=', 'cp.post_id')
+                ->leftJoin(DB::raw($leftJoin), function ($join) {
+                    $join->on('t.category_id', '=', 'cp.category_id')
+                        ->on('t.post_id', '<>', 'cp.post_id');
+                })
+                ->select('posts.*')
+                ->where('posts.id', '<>', DB::raw('t.post_id'))
+                ->setBindings([$user->id])
+                ->limit(3)
+                ->get();
         } else {
+            // Se não autorizado - Mostre posts recomendados com base nas views
             $recommendedPosts = Post::query()
                 ->leftJoin('post_views', 'posts.id', '=', 'post_views.post_id')
                 ->select('posts.*', DB::raw('COUNT(post_views.id) as view_count'))
@@ -73,11 +80,20 @@ class PostController extends Controller
                 ->get();
         }
 
-        // Se não autorizado - Mostre posts recomendados com base nas views
 
         // Mostre as categorias recentes com base nos ultimos posts
 
-        return view('home', compact('latestPost', 'popularPosts', 'recommendedPosts'));
+        $categories = Category::query()
+            ->whereHas('publishedPosts')
+            ->select('categories.*')
+            ->selectRaw('MAX(posts.published_at) as max_date')
+            ->leftJoin('category_post', 'categories.id', '=', 'category_post.post_id')
+            ->leftJoin('posts', 'posts.id', '=', 'category_post.post_id')
+            ->groupBy('categories.id')
+            ->limit(5)
+            ->get();
+
+        return view('home', compact('latestPost', 'popularPosts', 'recommendedPosts', 'categories'));
     }
 
     /**
