@@ -11,7 +11,7 @@
                 </a>
             @endforeach
         </div>
-        <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4">
+        <a href="{{route('view', $post)}}" class="text-3xl font-bold hover:text-gray-700 pb-4">
             {{ $post->title }}
         </a>
         <p href="#" class="text-sm pb-3">
