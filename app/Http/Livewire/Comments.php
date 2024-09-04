@@ -19,7 +19,7 @@ class Comments extends Component
 
     public function mount(Post $post) {
         $this->post = $post;
-        $this->comments =Comment::where('post_id', '=', $this->post->id)->orderByDesc('created_at')->get();
+        $this->comments = $this->selectComments();
     }
 
     public function render()
@@ -37,5 +37,12 @@ class Comments extends Component
         $this->comments = $this->comments->reject(function ($comment) use ($id) {
             return $comment->id == $id;
         });
+    }
+    private function selectComments()
+    {
+        return Comment::where('post_id', '=', $this->post->id)
+        ->with(['post', 'user'])
+        ->orderByDesc('created_at')
+        ->get();
     }
 }
